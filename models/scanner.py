@@ -38,7 +38,8 @@ class Scanner:
 
             for dirname in dirnames_to_add:
                 filepath = os.path.join(rel_path, dirname)
-                changes.append(AddedChange(filepath))
+                if os.path.isdir(filepath) or os.path.isfile(filepath) or os.path.islink(filepath):
+                    changes.append(AddedChange(filepath))
 
             for dirname in dirnames_common:
                 filepath = os.path.join(rel_path, dirname)

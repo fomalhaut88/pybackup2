@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Pybackup2
+Comment=Text files backuper
+Exec=/usr/bin/pybackup2
+Icon=/usr/share/pixmaps/pybackup2.ico
+Terminal=true
+Type=Application
+Encoding=UTF-8
+Categories=Application;
+Path=

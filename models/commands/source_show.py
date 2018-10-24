@@ -11,7 +11,8 @@ class SourceShow(BaseCommand):
         source_list = SourceList()
 
         if source_list:
+            print("%-40s%-50s%s" % ("=*= HASH =*=", "=*= SOURCE =*=", "=*= TARGET =*="))
             for source in source_list:
-                print(source.hash, source.src, source.trg)
+                print("%-40s%-50s%s" % (source.hash, source.src, source.trg))
         else:
             print("no sources")

@@ -11,13 +11,16 @@ class BackupAll(BaseCommand):
 
     def execute(self):
         source_list = SourceList()
-        for source in source_list:
-            try:
-                print("backuping {} -> {} ...".format(source.src, source.trg))
-                updated = source.backup()
-                if updated:
-                    print("backup completed")
-                else:
-                    print("no changes")
-            except:
-                traceback.print_exc()
+        if source_list:
+            for source in source_list:
+                try:
+                    print("backup {} -> {} ...".format(source.src, source.trg))
+                    updated = source.backup()
+                    if updated:
+                        print("backup completed")
+                    else:
+                        print("no changes")
+                except:
+                    traceback.print_exc()
+        else:
+            print("no sources to backup")

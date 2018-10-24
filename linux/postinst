@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sudo systemctl daemon-reload
+sudo systemctl enable pybackup2
+sudo systemctl stop pybackup2
+sudo systemctl start pybackup2

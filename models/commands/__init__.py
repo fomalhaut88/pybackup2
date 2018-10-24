@@ -29,7 +29,8 @@ def _build_commands_map():
         version, help,
         source_show, source_add, source_remove,
         backup_source, backup_all, backup_show,
-        file_history, file_content, file_restore
+        file_history, file_content, file_restore,
+        daemon
     )
 
     klasses = [
@@ -44,6 +45,7 @@ def _build_commands_map():
         file_history.FileHistory,
         file_content.FileContent,
         file_restore.FileRestore,
+        daemon.Daemon
     ]
 
     _commands_map.clear()

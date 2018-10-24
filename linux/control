@@ -1,0 +1,9 @@
+Package: pybackup2
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: i386
+Depends:
+Maintainer: Alexander Khlebushchev <mail@fomalhaut.su>
+Description: Pybackup2
+ Text files backuper.

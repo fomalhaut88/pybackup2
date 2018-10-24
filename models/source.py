@@ -11,7 +11,7 @@ from models.changes import AddedChange, RemovedChange, UpdatedChange
 
 
 class Source:
-    ADDED_FILE = '.added.pybackup'
+    ADDED_FILE = '.added.pybackup2'
 
     def __init__(self, src, trg):
         self.src = utils.clean_dir(src)
@@ -44,16 +44,19 @@ class Source:
 
                         if isinstance(change, AddedChange):
                             utils.ensure_dir(os.path.join(backup_new_dir, folder))
-                            if os.path.isdir(os.path.join(self.src, change.path)):
-                                shutil.copytree(
-                                    os.path.join(self.src, change.path),
-                                    os.path.join(backup_new_dir, change.path)
-                                )
+
+                            src_path = os.path.join(self.src, change.path)
+                            backup_path = os.path.join(backup_new_dir, change.path)
+
+                            if os.path.isdir(src_path):
+                                shutil.copytree(src_path, backup_path)
+                            elif os.path.isfile(src_path):
+                                shutil.copyfile(src_path, backup_path)
+                            elif os.path.islink(src_path):
+                                linkto = os.readlink(src_path)
+                                os.symlink(linkto, backup_path)
                             else:
-                                shutil.copyfile(
-                                    os.path.join(self.src, change.path),
-                                    os.path.join(backup_new_dir, change.path)
-                                )
+                                raise TypeError("unknown type of file: {}".format(src_path))
 
                             added_path = os.path.join(backup_last_dir, self.ADDED_FILE)
                             with open(added_path, 'a') as f:

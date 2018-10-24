@@ -1,0 +1,12 @@
+[Unit]
+Description=pybackup2
+After=multi-user.target
+
+[Service]
+Type=simple
+PIDFile=/tmp/pybackup2.pid
+ExecStart=/usr/bin/pybackup2 daemon 3600
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
