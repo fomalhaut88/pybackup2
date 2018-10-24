@@ -1,5 +1,6 @@
 import os
 import inspect
+import traceback
 
 from models.base_command import BaseCommand
 from models.errors import CommandError
@@ -22,6 +23,9 @@ def run_command(name, args):
 
     except CommandError as err:
         print("Error: {}".format(err))
+
+    except:
+        traceback.print_exc()
 
 
 def _build_commands_map():

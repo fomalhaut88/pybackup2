@@ -1,11 +1,12 @@
 import os
 import copy
+import shutil
 
 
 def clean_dir(path):
     path = os.path.abspath(path)
     if not os.path.exists(path):
-        raise IOError("no such directory: '{}'".forder(path))
+        raise IOError("no such directory: '{}'".format(path))
     if not os.path.isdir(path):
         raise IOError("'{}' is not a directory".format(path))
     return path
@@ -37,3 +38,35 @@ def unordered_lists_equal(lst1, lst2, cmp_func=None):
         return True
 
     return False
+
+
+def copy_tree(src, dst, symlinks=False):
+    if not os.path.exists(dst):
+        os.mkdir(dst)
+
+    for name in os.listdir(src):
+        src_path = os.path.join(src, name)
+        dst_path = os.path.join(dst, name)
+
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, symlinks=symlinks)
+        elif os.path.isfile(src_path):
+            copy_file(src_path, dst_path)
+        elif os.path.islink(src_path) and symlinks:
+            copy_link(src_path, dst_path)
+
+
+def copy_file(src, dst):
+    try:
+        shutil.copyfile(src, dst)
+        return True
+    except OSError as exc:
+        if '[Errno 22] Invalid argument' in str(exc):
+            return False
+        else:
+            raise
+
+
+def copy_link(src, dst):
+    linkto = os.readlink(src)
+    os.symlink(linkto, dst)

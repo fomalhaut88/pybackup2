@@ -49,12 +49,13 @@ class Source:
                             backup_path = os.path.join(backup_new_dir, change.path)
 
                             if os.path.isdir(src_path):
-                                shutil.copytree(src_path, backup_path)
+                                utils.copy_tree(src_path, backup_path, symlinks=True)
+                                updated = True
                             elif os.path.isfile(src_path):
-                                shutil.copyfile(src_path, backup_path)
+                                updated = utils.copy_file(src_path, backup_path)
                             elif os.path.islink(src_path):
-                                linkto = os.readlink(src_path)
-                                os.symlink(linkto, backup_path)
+                                utils.copy_link(src_path, backup_path)
+                                updated = True
                             else:
                                 raise TypeError("unknown type of file: {}".format(src_path))
 
@@ -68,6 +69,7 @@ class Source:
                                 os.path.join(backup_new_dir, change.path),
                                 os.path.join(backup_last_dir, change.path)
                             )
+                            updated = True
 
                         elif isinstance(change, UpdatedChange):
                             utils.ensure_dir(os.path.join(backup_last_dir, folder))
@@ -75,12 +77,10 @@ class Source:
                                 os.path.join(backup_new_dir, change.path),
                                 os.path.join(backup_last_dir, change.path)
                             )
-                            shutil.copyfile(
+                            updated = utils.copy_file(
                                 os.path.join(self.src, change.path),
                                 os.path.join(backup_new_dir, change.path)
                             )
-
-                        updated = True
 
                     except:
                         print("Error in {}".format(change))
@@ -93,7 +93,7 @@ class Source:
         else:
             backup_new = self._generate_new_backup()
             backup_new_dir = os.path.join(self.trg_home, backup_new)
-            shutil.copytree(self.src, backup_new_dir)
+            utils.copy_tree(self.src, backup_new_dir, symlinks=True)
             updated = True
 
         return updated
@@ -121,7 +121,7 @@ class Source:
         backup_dir = os.path.join(self.trg_home, backup)
         t_path = os.path.join(backup_dir, rel_path)
         s_path = os.path.join(self.src, rel_path)
-        shutil.copyfile(t_path, s_path)
+        utils.copy_file(t_path, s_path)
 
     def _calc_hash(self):
         m = md5()
