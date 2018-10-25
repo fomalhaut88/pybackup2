@@ -46,7 +46,7 @@ cp linux/control $deb_pkg_dir/DEBIAN/
 # cp linux/postinst $deb_pkg_dir/DEBIAN/
 cp linux/pybackup2.desktop $deb_pkg_dir/usr/share/applications/
 cp pybackup2.ico $deb_pkg_dir/usr/share/pixmaps/
-# cp pybackup2.service $deb_pkg_dir/etc/systemd/system/
+cp pybackup2.service $deb_pkg_dir/etc/systemd/system/
 
 sed -i "s/Version:.*/Version: $version/" $deb_pkg_dir/DEBIAN/control
 dpkg-deb --build $deb_pkg_dir

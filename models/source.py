@@ -50,18 +50,20 @@ class Source:
 
                             if os.path.isdir(src_path):
                                 utils.copy_tree(src_path, backup_path, symlinks=True)
-                                updated = True
+                                success = True
                             elif os.path.isfile(src_path):
-                                updated = utils.copy_file(src_path, backup_path)
+                                success = utils.copy_file(src_path, backup_path)
                             elif os.path.islink(src_path):
                                 utils.copy_link(src_path, backup_path)
-                                updated = True
+                                success = True
                             else:
                                 raise TypeError("unknown type of file: {}".format(src_path))
 
-                            added_path = os.path.join(backup_last_dir, self.ADDED_FILE)
-                            with open(added_path, 'a') as f:
-                                print(change.path, file=f)
+                            if success:
+                                added_path = os.path.join(backup_last_dir, self.ADDED_FILE)
+                                with open(added_path, 'a') as f:
+                                    print(change.path, file=f)
+                                updated = True
 
                         elif isinstance(change, RemovedChange):
                             utils.ensure_dir(os.path.join(backup_last_dir, folder))
@@ -77,10 +79,12 @@ class Source:
                                 os.path.join(backup_new_dir, change.path),
                                 os.path.join(backup_last_dir, change.path)
                             )
-                            updated = utils.copy_file(
+                            success = utils.copy_file(
                                 os.path.join(self.src, change.path),
                                 os.path.join(backup_new_dir, change.path)
                             )
+                            if success:
+                                updated = True
 
                     except:
                         print("Error in {}".format(change))

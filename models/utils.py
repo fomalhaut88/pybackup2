@@ -41,19 +41,27 @@ def unordered_lists_equal(lst1, lst2, cmp_func=None):
 
 
 def copy_tree(src, dst, symlinks=False):
-    if not os.path.exists(dst):
-        os.mkdir(dst)
+    try:
+        if not os.path.exists(dst):
+            os.mkdir(dst)
 
-    for name in os.listdir(src):
-        src_path = os.path.join(src, name)
-        dst_path = os.path.join(dst, name)
+    except OSError as exc:
+        if '[Errno 22] Invalid argument' in str(exc):
+            return False
+        else:
+            raise
 
-        if os.path.isdir(src_path):
-            copy_tree(src_path, dst_path, symlinks=symlinks)
-        elif os.path.isfile(src_path):
-            copy_file(src_path, dst_path)
-        elif os.path.islink(src_path) and symlinks:
-            copy_link(src_path, dst_path)
+    else:
+        for name in os.listdir(src):
+            src_path = os.path.join(src, name)
+            dst_path = os.path.join(dst, name)
+
+            if os.path.isdir(src_path):
+                copy_tree(src_path, dst_path, symlinks=symlinks)
+            elif os.path.isfile(src_path):
+                copy_file(src_path, dst_path)
+            elif os.path.islink(src_path) and symlinks:
+                copy_link(src_path, dst_path)
 
 
 def copy_file(src, dst):
