@@ -49,8 +49,7 @@ class Source:
                             backup_path = os.path.join(backup_new_dir, change.path)
 
                             if os.path.isdir(src_path):
-                                utils.copy_tree(src_path, backup_path, symlinks=True)
-                                success = True
+                                success = utils.copy_tree(src_path, backup_path, symlinks=True)
                             elif os.path.isfile(src_path):
                                 success = utils.copy_file(src_path, backup_path)
                             elif os.path.islink(src_path):

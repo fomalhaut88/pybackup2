@@ -63,6 +63,8 @@ def copy_tree(src, dst, symlinks=False):
             elif os.path.islink(src_path) and symlinks:
                 copy_link(src_path, dst_path)
 
+        return True
+
 
 def copy_file(src, dst):
     try:
