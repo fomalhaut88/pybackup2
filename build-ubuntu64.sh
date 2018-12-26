@@ -43,7 +43,8 @@ mkdir -p $deb_pkg_dir/etc/systemd/system
 
 cp dist/pybackup2 $deb_pkg_dir/usr/bin/
 cp linux/control $deb_pkg_dir/DEBIAN/
-# cp linux/postinst $deb_pkg_dir/DEBIAN/
+cp linux/postinst $deb_pkg_dir/DEBIAN/
+cp linux/postrm $deb_pkg_dir/DEBIAN/
 cp linux/pybackup2.desktop $deb_pkg_dir/usr/share/applications/
 cp pybackup2.ico $deb_pkg_dir/usr/share/pixmaps/
 cp pybackup2.service $deb_pkg_dir/etc/systemd/system/

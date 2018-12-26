@@ -1,6 +1,7 @@
-#!/bin/sh
+sed -i 's,WorkingDirectory=.,WorkingDirectory='"$HOME"',g' /etc/systemd/system/pybackup2.service
 
-sudo systemctl daemon-reload
-sudo systemctl enable pybackup2
-sudo systemctl stop pybackup2
-sudo systemctl start pybackup2
+systemctl daemon-reload
+systemctl enable pybackup2
+systemctl stop pybackup2
+systemctl start pybackup2
+systemctl status pybackup2

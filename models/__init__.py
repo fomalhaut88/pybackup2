@@ -2,10 +2,7 @@ import os
 import sys
 
 
-CONFIG_PATH = os.path.join(
-    os.path.expanduser("~"),
-    ".pybackup2"
-)
+CONFIG_PATH = os.path.abspath(".pybackup2")
 BASE_DIR = sys._MEIPASS if getattr(sys, 'frozen', False) else '.'
 
 
